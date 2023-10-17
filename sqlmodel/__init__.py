@@ -125,14 +125,30 @@ from sqlalchemy.types import UnicodeText as UnicodeText
 from sqlalchemy.types import VARBINARY as VARBINARY
 from sqlalchemy.types import VARCHAR as VARCHAR
 
-# Extensions and modifications of SQLAlchemy in SQLModel
-from .engine.create import create_engine as create_engine
-from .orm.session import Session as Session
-from .sql.expression import select as select
-from .sql.expression import col as col
-from .sql.sqltypes import AutoString as AutoString
+
 
 # Export SQLModel specifics (equivalent to Pydantic)
-from .main import SQLModel as SQLModel
-from .main import Field as Field
-from .main import Relationship as Relationship
+import sqlalchemy
+is_sqlalchemy_v1 = '1' == sqlalchemy.__version__.split('.')[0]
+if is_sqlalchemy_v1:
+    # Extensions and modifications of SQLAlchemy in SQLModel
+    from .v1.engine.create import create_engine as create_engine
+    from .v1.orm.session import Session as Session
+    from .v1.sql.expression import select as select
+    from .v1.sql.expression import col as col
+    from .v1.sql.sqltypes import AutoString as AutoString
+
+    from .v1.main import  SQLModel as SQLModel
+    from .v1.main import Field as Field
+    from .v1.main import Relationship as Relationship
+else:
+    # Extensions and modifications of SQLAlchemy in SQLModel
+    from .engine.create import create_engine as create_engine
+    from .orm.session import Session as Session
+    from .sql.expression import select as select
+    from .sql.expression import col as col
+    from .sql.sqltypes import AutoString as AutoString
+
+    from .main import SQLModel as SQLModel
+    from .main import Field as Field
+    from .main import Relationship as Relationship
